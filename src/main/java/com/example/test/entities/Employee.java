@@ -1,9 +1,11 @@
 package com.example.test.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
@@ -11,7 +13,10 @@ import java.util.Date;
 @Entity
 @Table(name = "employee")
 @AllArgsConstructor
+@Getter
+@Setter
 @RequiredArgsConstructor
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idEmployee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +31,9 @@ public class Employee {
     @Column(name = "experience")
     private int experience;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_post")
+//    @JsonBackReference
+    @JsonIgnoreProperties("employees")
     private Post post;
 }
